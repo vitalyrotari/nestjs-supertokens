@@ -1,0 +1,29 @@
+import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import { errorHandler } from 'supertokens-node/framework/express';
+import { Error as STError } from 'supertokens-node';
+
+@Catch(STError)
+export class SupertokensExceptionFilter implements ExceptionFilter {
+  private readonly handler: ErrorRequestHandler;
+
+  constructor() {
+    this.handler = errorHandler();
+  }
+
+  async catch(exception: Error, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const resp = ctx.getResponse<Response>();
+
+    if (resp.headersSent) {
+      return;
+    }
+
+    await this.handler(
+      exception,
+      ctx.getRequest<Request>(),
+      resp,
+      ctx.getNext<NextFunction>(),
+    );
+  }
+}

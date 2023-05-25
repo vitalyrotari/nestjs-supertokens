@@ -1,0 +1,27 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text align="center">
+          <h1>Panther Loyalty</h1>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          Hi there,
+        </mj-text>
+        <mj-text>
+          Thanks for signing up to {{appName}}! To verify your account, click the button below.
+        </mj-text>
+        <mj-button href="{{emailVerifyLink}}" padding="5%">
+          Verify account
+        </mj-button>
+        <mj-text>
+          If you cannot click the button, copy and paste this link into your browser instead: <a href="{{emailVerifyLink}}">{{emailVerifyLink}}</a> 
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

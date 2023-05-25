@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:bullseye
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_NAME:-supertokens}
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+
+  auth:
+    image: registry.supertokens.io/supertokens/supertokens-postgresql
+    restart: always
+    environment:
+      - POSTGRESQL_CONNECTION_URI="postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-supertokens}"
+      - API_KEYS=${API_KEYS:-supertokens-secret-key}
+    ports:
+      - "3567:3567"
+    depends_on:
+      - db
